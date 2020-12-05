@@ -63,17 +63,18 @@ public class AppPegaProducer1 {
                 .getOrCreate();
 
         Dataset<Row> data = spark
-                .read()
+                .readStream()
                 .parquet(INPUT_DIRECTORY);
 
         data.printSchema();
-        data
+        StreamingQuery query = data
             .selectExpr("adId","type")
-            .write()
+            .writeStream()
             .format("kafka")
             .option("kafka.bootstrap.servers","localhost:9092")
             .option("topic", "testDemo")
             .save();
+        query.awaitTermination();
 
         System.out.println("Message sent successfully");
     }
