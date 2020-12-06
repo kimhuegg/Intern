@@ -67,6 +67,7 @@ public class AppPegaProducer1 {
                 .parquet(INPUT_DIRECTORY);
 
         data.printSchema();
+<<<<<<< HEAD
 
         StreamingQuery query = data
                 .selectExpr("adId","type")
@@ -75,6 +76,15 @@ public class AppPegaProducer1 {
                 .option("kafka.bootstrap.servers","localhost:9092")
                 .option("topic", "testDemo")
                 .start();
+=======
+        StreamingQuery query = data
+            .selectExpr("adId","type")
+            .writeStream()
+            .format("kafka")
+            .option("kafka.bootstrap.servers","localhost:9092")
+            .option("topic", "testDemo")
+            .save();
+>>>>>>> 7f014ba73adfc86035468002bdec74125f3a2073
         query.awaitTermination();
 
         System.out.println("Message sent successfully");
